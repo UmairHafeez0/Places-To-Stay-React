@@ -5,6 +5,18 @@ import { useRouter } from 'next/navigation';
 import { auth, db } from '../firebaseConfig';
 import { collection, doc, getDocs, deleteDoc, updateDoc, getDoc } from 'firebase/firestore';
 
+interface Booking {
+  id: string;
+  bookingDates: string[];
+  bookingPlaceId: string;
+  date: string;
+  email: string;
+  nights: number;
+  numberOfNights: number;
+  numberOfRooms: number;
+  place: string;
+  startingDate: string;
+}
 
 const BookingsPage: React.FC = () => {
   const [userEmail, setUserEmail] = useState<string>('');
@@ -27,6 +39,35 @@ const BookingsPage: React.FC = () => {
     return () => unsubscribe();
   }, [router]);
 
+  const handleDelete = async (bookingId: string, bookingPlaceId: string, nights: number, bookingDates: string[]) => {
+    try {
+      const docRef = doc(db, 'bookings', bookingId);
+      const booking = bookings.find(b => b.id === bookingId);
+      if (!booking) {
+        return;
+      }
+      const placeDocRef = doc(db, 'bookingPlaces', bookingPlaceId);
+      const placeDocSnapshot = await getDoc(placeDocRef);
+      const placeData = placeDocSnapshot.data();
+      if (!placeData || !placeData.availableRooms) {
+        return;
+      }
+      const availableRoomsUpdate: Record<string, number> = {};
+      bookingDates.forEach((date: string) => {
+        const currentAvailableRooms = placeData.availableRooms[date] || 0;
+        availableRoomsUpdate[`availableRooms.${date}`] = currentAvailableRooms + booking.numberOfRooms;
+      });
+      await deleteDoc(docRef);
+      await updateDoc(placeDocRef, availableRoomsUpdate);
+      setBookings(bookings.filter(b => b.id !== bookingId));
+    } catch (error) {
+      console.error("Error deleting booking: ", error);
+    }
+  };
+
+  const handleEdit = (bookingId: string) => {
+    console.log("Edit booking with ID:", bookingId);
+  };
 
   return (
     <div className="container">
