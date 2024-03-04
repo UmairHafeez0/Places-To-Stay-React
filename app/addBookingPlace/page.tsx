@@ -11,6 +11,40 @@ type AvailableRooms = {
 };
 
 const AddBookingPlace = () => {
+  const router = useRouter();
+  const [bookingPlace, setBookingPlace] = useState({
+    type: '',
+    location: '',
+    availableRooms: {} as AvailableRooms,
+    description: '',
+    pricePerRoom: '',
+  });
+  const [error, setError] = useState('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+
+    if (name.startsWith('rooms')) {
+      const date = name.split('_')[1] as typeof availableDates[number];
+      setBookingPlace((prev) => ({
+        ...prev,
+        availableRooms: { ...prev.availableRooms, [date]: value },
+      }));
+    } else {
+      setBookingPlace((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const docRef = doc(db, 'bookingPlaces', `${bookingPlace.type}_${bookingPlace.location}`);
+      await setDoc(docRef, bookingPlace);
+      router.push('/AdminDashboard');
+    } catch (error) {
+      setError('Failed to add booking place.');
+    }
+  };
 
   return (
     <div className="container mt-5">
