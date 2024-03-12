@@ -19,7 +19,37 @@ const CheckBookings = () => {
     fetchBookings();
   }, []);
 
-
+  const handleDelete = async (bookingId: string, bookingPlaceId: string, nights: number, bookingDates: string[]) => {
+    try {
+      const docRef = doc(db, 'bookings', bookingId);
+      const booking = bookings.find(b => b.id === bookingId); 
+  
+      if (!booking) {
+        return; 
+      }
+  
+      const placeDocRef = doc(db, 'bookingPlaces', bookingPlaceId);
+      const placeDocSnapshot = await getDoc(placeDocRef); 
+      const placeData = placeDocSnapshot.data(); 
+  
+      if (!placeData || !placeData.availableRooms) {
+        return;
+      }
+  
+      const availableRoomsUpdate: Record<string, number> = {};
+  
+      bookingDates.forEach((date: string) => {
+        const currentAvailableRooms = placeData.availableRooms[date] || 0;
+        availableRoomsUpdate[`availableRooms.${date}`] = currentAvailableRooms + booking.numberOfRooms;
+      });
+  
+      await deleteDoc(docRef);
+      await updateDoc(placeDocRef, availableRoomsUpdate);
+      setBookings(bookings.filter(b => b.id !== bookingId));
+    } catch (error) {
+      console.error("Error deleting booking: ", error);
+    }
+  };
   
   return (
     <div className="container mt-5">
