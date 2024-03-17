@@ -18,7 +18,35 @@ interface BookingPlace {
 }
 
 const EditBookingPlace = () => {
+  const [bookingPlaces, setBookingPlaces] = useState<BookingPlace[]>([]);
+  const [error, setError] = useState<string>('');
 
+  useEffect(() => {
+    const fetchBookingPlaces = async () => {
+      try {
+        const placesCollection = collection(db, 'bookingPlaces');
+        const snapshot = await getDocs(placesCollection);
+        const placesList: BookingPlace[] = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as BookingPlace[];
+        setBookingPlaces(placesList);
+      } catch (err) {
+        setError('Failed to fetch booking places.');
+      }
+    };
+
+    fetchBookingPlaces();
+  }, []);
+
+  const handleDelete = async (id: string) => {
+    if (confirm("Are you sure you want to delete this booking place?")) {
+      try {
+        const docRef = doc(db, 'bookingPlaces', id);
+        await deleteDoc(docRef);
+        setBookingPlaces(bookingPlaces.filter(place => place.id !== id));
+      } catch (err) {
+        setError('Failed to delete booking place.');
+      }
+    }
+  };
 
   return (
     <div className="container mt-5">
