@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏨 Places to Stay – React Booking App
 
-## Getting Started
+This is a small but feature-rich **React.js project** developed as part of a **university assignment**. It allows users to **explore and book restaurants or places to stay**, offering a simple and modern UI for a smooth booking experience.
 
-First, run the development server:
+## 🎯 Project Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The **Places to Stay** project showcases the use of React for building a responsive, single-page application that interacts with mock data or APIs to demonstrate:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🛏️ Listing of places to stay (e.g., restaurants, hotels)
+- 📅 Booking functionality for users
+- 🧭 Simple navigation using React Router
+- 🎨 Clean UI/UX using CSS modules or styled-components
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This project was created as a collaborative learning experience in a university setting.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🤝 Collaborators
+This project is a collaborative effort by university students.
 
-## Learn More
+Special thanks to:
+Rubab Fatima (GitHub: RubabFatima8887)
+For contributing significantly to the design, components, and overall functionality.
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Technologies Used
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **React.js** – Core frontend framework
+- **React Router** – For handling navigation
+- **CSS/SCSS or Tailwind CSS** – For styling components
+- **useState / useEffect** – React hooks for state and lifecycle management
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📚 Learnings & Goals
+Strengthened our understanding of React fundamentals
 
-## Deploy on Vercel
+Learned how to manage component state and props
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Improved frontend design and responsive layout skills
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Practiced team collaboration and Git/GitHub usage
+
+## 📬 Feedback
+We welcome feedback and suggestions! Feel free to open issues or fork the project to improve it further.
+
+## Created as part of our University coursework using React.js to demonstrate practical application development skills.
